@@ -1,0 +1,71 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Registrar clase</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Registrar clase</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-list>
+    <ion-item>
+      <h1>Registrar clase</h1>
+    </ion-item>
+    
+    <ion-item>
+      <img src="{{selfieImage}}" width="400px" height="400px" alt="">
+      <br>      
+      <ion-button (click)="takePhoto()">Tomar foto</ion-button>
+    </ion-item>
+
+    <!-- Datos clase -->
+    <ion-item>
+      Nombre profesor: {{nomProfesor}}
+    </ion-item>
+
+    <ion-item>
+      Sala de la clase: {{salaClase}}
+      
+    </ion-item>
+
+    <ion-item>
+      Hora de clase: {{horaClase}}
+      
+    </ion-item>
+
+    <ion-item>
+      Dia de la clase: {{diaClase}}
+    </ion-item>
+    
+    <!-- Datos alumno -->
+
+    <ion-item>
+      Nombre alumno: {{nomAlumno}}
+    </ion-item>
+
+    <ion-item>
+      Apellido alumno: {{apeAlumno}}
+    </ion-item>
+
+    <ion-item>
+      RUT alumno: {{rutAlumno}}
+    </ion-item>
+
+    <ion-item>
+      Latitud alumno:  {{latiAlumno}}
+      <br>
+      Longitud alumno: {{longAlumno}}
+    </ion-item>
+
+  </ion-list>
+
+  <ion-button (click)="registrarClase()">
+    Finalizar registro de clase
+  </ion-button>
+
+
+</ion-content>

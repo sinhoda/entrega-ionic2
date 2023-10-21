@@ -1,0 +1,20 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Escanear codigo QR</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <h1>Click al boton para iniciar escaneo de codigo qr</h1>
+  <div id="parent">  
+    <button (click)="askUser()" id="btnLector">
+      <ion-icon name="qr-code-outline"></ion-icon>
+    </button>
+
+    
+    
+  </div>
+  
+  <ion-button expand="block" (click)="cancelarEscaneo()">Cancelar escaneo de qr</ion-button>
+</ion-content>

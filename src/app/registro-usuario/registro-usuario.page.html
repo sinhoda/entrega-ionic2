@@ -1,0 +1,67 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Registrar usuario</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding" > 
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Registrar Usuario</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <form #formulario="ngForm" (ngSubmit)="registrar()">
+  <ion-list>
+    <ion-item>
+      <h1>Registrar usuario</h1>
+    </ion-item>
+    <ion-item>
+      <ion-input name="rutForm" label="Ingrese su rut, sin puntos ni guion:" placeholder="ejemplo: 123456789" [(ngModel)]="rutForm" required
+      minlength="8" maxlength="9"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input name="nombreForm" label="Ingrese su nombre" placeholder="ejemplo: Julian" [(ngModel)]="nombreForm" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input name="apellidoForm" label="Ingrese su apellido" placeholder="ejemplo: Provoste" [(ngModel)]="apellidoForm" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input type="password" name="passwordForm" label="Ingrese contraseña:" placeholder="ejemplo: 1234" [(ngModel)]="passwordForm" required minlength="4"></ion-input>
+    </ion-item>
+
+    <ion-item *ngIf="arrayRegion != null">
+      <ion-select 
+      (ionChange)="handleChangeRegion($event)" placeholder="Region" required>
+      <div slot="label">Seleccione su region:  <ion-text color="danger">(Requerido)</ion-text></div>
+        <ion-select-option *ngFor="let region of arrayRegion.data" value="{{region.id}}">{{region.nombre}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item >
+      <ion-select  (ionChange)="handleChangeComuna($event)" *ngIf="arrayComuna != null"   placeholder="Comuna" required>
+        <div slot="label">Seleccione su comuna:  <ion-text color="danger">(Requerido)</ion-text></div>
+        <ion-select-option  *ngFor="let comuna of arrayComuna.data" value="{{comuna.id}}">{{comuna.nombre}} </ion-select-option>
+      </ion-select>
+
+      <ion-select *ngIf="arrayComuna == null"   label="Seleccione su comuna: " placeholder="Deshabilitado" disabled>
+        
+      </ion-select>
+
+      
+    </ion-item>  
+  </ion-list>
+  
+  <ion-button [routerLink]="['/login']">Cancelar</ion-button>
+  <ion-button type="submit" [attr.disabled]="formulario.invalid ">Registrar usuario</ion-button>
+  <ion-button (click)="limpiarForm(formulario)">Limpiar espacios</ion-button>
+  </form>
+
+
+
+  
+  
+</ion-content>
