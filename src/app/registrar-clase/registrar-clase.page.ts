@@ -6,6 +6,7 @@ import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
 
+
 @Component({
   selector: 'app-registrar-clase',
   templateUrl: './registrar-clase.page.html',
@@ -90,9 +91,28 @@ export class RegistrarClasePage implements OnInit {
 
 
 
+    async registrar(){
+      let clase = {
+        nomProfesor: this.nomProfesor,
+        salaClase: this.salaClase,
+        horaClase: this.horaClase,
+        diaClase: this.diaClase,
+        nomAlumno: this.nomAlumno,
+        apeAlumno: this.apeAlumno,
+        rutAlumno: this.rutAlumno,
+        latiAlumno: this.latiAlumno,
+        longAlumno: this.longAlumno,
+        selfieImage: this.selfieImage
+     }
+      let key = this.diaClase + "-"+ this.horaClase + "-" + this.rutAlumno
+      this.storage.create(key,JSON.stringify(clase))  
+   }
+
+
+
+
   async registrarClase() {
-    
-    
+    this.registrar()
     let messageAlert = "Felicidades "+ this.nomAlumno + " " + this.apeAlumno + " registrate tu clase correctamente";
       const alert = await this.alertController.create({
         header: 'Clase registrada con exito',
