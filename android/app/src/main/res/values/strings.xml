@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">PresenteProfe</string>
+    <string name="title_activity_main">PresenteProfe</string>
+    <string name="package_name">io.duoc.ANunez</string>
+    <string name="custom_url_scheme">io.duoc.ANunez</string>
+</resources>

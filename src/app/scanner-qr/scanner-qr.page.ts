@@ -14,13 +14,18 @@ import {  Router, ActivatedRoute } from '@angular/router';
 export class ScannerQRPage implements OnInit {
 
   
+    content_visibility = '';
+    scannedResult: any;
     constructor(private alertController: AlertController, private router: Router, private route: ActivatedRoute) {
       
      }
   
     ngOnInit() {
+      
     }
   
+    
+
     handlerMessage = '';
 
 
@@ -32,23 +37,65 @@ export class ScannerQRPage implements OnInit {
     };
   
     //Codigo de scaneo
-    async startScan(){
-      BarcodeScanner.hideBackground();
-      const result = await BarcodeScanner.startScan();
-      if (result.hasContent) {
-        console.log(result.content);
-        //this.presentAlert(result);
-        
-        this.sliceText(result);
+  
+
+    async checkPermission() {
+      try {
+        // check or request permission
+        const status = await BarcodeScanner.checkPermission({ force: true });
+        if (status.granted) {
+          // the user granted permission
+          return true;
+        }
+        return false;
+      } catch(e) {
+        console.log(e);
+        return e;
       }
-    };
+    }
+
+  
+    async startScan() {
+      try {
+        const permission = await this.checkPermission();
+        if(!permission) {
+          return;
+        }
+        await BarcodeScanner.hideBackground();
+        document.querySelector('body')!.classList.add('scanner-active');
+        this.content_visibility = 'hidden';
+        const result = await BarcodeScanner.startScan();
+        console.log(result);
+        BarcodeScanner.showBackground();
+        document.querySelector('body')!.classList.remove('scanner-active');
+        this.content_visibility = '';
+        if(result?.hasContent) {
+          this.scannedResult = result.content;
+          this.sliceText(result)
+          console.log(this.scannedResult);
+        }
+      } catch(e) {
+        console.log(e);
+        this.stopScan();
+      }
+    }
+  
+    stopScan() {
+      BarcodeScanner.showBackground();
+      BarcodeScanner.stopScan();
+      document.querySelector('body')!.classList.remove('scanner-active');
+      this.content_visibility = '';
+    }
+  
+    ngOnDestroy(): void {
+        this.stopScan();
+    }
+  
+  
+
+
     
-    //Inicar escaneo
-    askUser(){
-  
-      this.alertCodigoQr();
-    };
-  
+
     //Alerta
     async presentAlert() {
       let profesorMsg = `Profesor: ${this.clase.nombreProfesor}`
@@ -122,39 +169,6 @@ export class ScannerQRPage implements OnInit {
   
     
   
-    //Alerta leer codigo qr
-    async alertCodigoQr() {
-      const alert = await this.alertController.create({
-        header: "¿Quieres iniciar ha escanear el codigo QR?",
-        buttons: this.buttonsQr,
-        
-        });
-  
-      
-  
-      await alert.present();
-    }
-  
-    //Botones codigo qr
-    public buttonsQr = [
-      {
-        text: 'Cancelar',
-        role: 'cancel',
-        handler: () => {
-          console.log('Alert canceled');
-        },
-      },
-      {
-        text: 'Iniciar escaneo',
-        role: 'confirm',
-        handler: () => {
-          this.startScan()
-          
-        },
-      },
-    ];
-
-
     //Cancelar scanner
     async cancelarEscaneo() {
   

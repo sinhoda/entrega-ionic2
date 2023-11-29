@@ -50,7 +50,6 @@ export class RegistrarClasePage implements OnInit {
     let valRut = valueAlumno.usuario;
     this.obtenerDatos(valRut)
 
-    
     this.fetchLocation()
   }
 
@@ -62,13 +61,30 @@ export class RegistrarClasePage implements OnInit {
     this.rutAlumno = alumno.rut;
   }
 
+
   //Obtener latitud y longitud
   async fetchLocation(){
-    const location = await Geolocation.getCurrentPosition();
-    console.log('latitud', location.coords.latitude);
-    console.log('longitud', location.coords.longitude);
-    this.latiAlumno = location.coords.latitude;
-    this.longAlumno = location.coords.longitude;
+    try{
+      const permission = await Geolocation.checkPermissions();
+      if (permission?.location != 'granted'){
+        const reStatus = await Geolocation.requestPermissions();
+        if (reStatus?.location != 'granted'){
+          this.latiAlumno = "Sin permiso"
+          this.longAlumno = "Sin permiso"
+        }
+        
+      }
+      const location = await Geolocation.getCurrentPosition();
+      console.log('latitud', location.coords.latitude);
+      console.log('longitud', location.coords.longitude);
+      this.latiAlumno = location.coords.latitude;
+      this.longAlumno = location.coords.longitude;
+      
+    } catch(e){
+      console.log(e);
+      
+    }
+    
   }  
 
 
